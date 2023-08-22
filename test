@@ -1,0 +1,151 @@
+if game.PlaceId == 5490351219 then
+ 
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "BaconBoss | Clicker", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+ 
+--values
+getgenv().autoTap = true
+getgenv().selectRebirth = "1"
+getgenv().autoRebirth = true
+getgenv().tpPlace = "string"
+getgenv().selectEgg = "basic"
+getgenv().autoEgg = true
+ 
+--function
+function autoTap()
+     while getgenv().autoTap == true do 
+        game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.ClickService.Click:FireServer(1)
+        wait(0.000000000001)
+    end
+end
+ 
+function autoRebirth()
+     while getgenv().autoRebirth == true do 
+        game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.RebirthService.BuyRebirths:FireServer(getgenv().selectRebirth,1) 
+        wait(0.000000000001)
+    end
+end
+ 
+function Teleport(teleportPlace)
+    local player = game.Players.LocalPlayer
+    player.Character.HumanoidRootPart.CFrame = teleportPlace
+end
+ 
+function autoEgg()
+     while getgenv().autoEgg == true do 
+        game:GetService("ReplicatedStorage").Aero.AeroRemoteServices.EggService.Purchase:FireServer(getgenv().selectEgg,1)
+        wait(0.000000000001)
+    end
+end
+ 
+ 
+--Tabs
+ 
+local MainTab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+ 
+local EggTab = Window:MakeTab({
+	Name = "Egg",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+ 
+local RebirthTab = Window:MakeTab({
+	Name = "Rebirth",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+ 
+local MiscTab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+ 
+local TpTab = Window:MakeTab({
+	Name = "Tp",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+ 
+--toggles
+ 
+MainTab:AddToggle({
+	Name = "Auto Tap",
+	Default = false,
+	Callback = function(Value)
+		getgenv().autoTap = Value
+        autoTap()
+	end    
+})
+ 
+RebirthTab:AddToggle({
+	Name = "Auto Rebirth",
+	Default = false,
+	Callback = function(Value)
+		getgenv().autoRebirth = Value
+        autoRebirth()
+	end    
+})
+ 
+EggTab:AddToggle({
+	Name = "Auto Hatch",
+	Default = false,
+	Callback = function(Value)
+		getgenv().autoEgg = Value
+        autoEgg()
+	end    
+})
+-- label
+ 
+ 
+-- select
+ 
+RebirthTab:AddDropdown({
+	Name = "Select",
+	Default = "1",
+	Options = {"1", "10", "100", "1000", "10000"},
+	Callback = function(Value)
+		getgenv().selectRebirth = Value
+	end    
+})
+ 
+TpTab:AddDropdown({
+	Name = "Select",
+	Default = "Desert",
+	Options = {"Desert", "Winter", "Lava", "Toxic"},
+	Callback = function(Value)
+	    getgenv().tpPlace = Value  
+	end    
+})
+ 
+EggTab:AddDropdown({
+	Name = "Select",
+	Default = "basic",
+	Options = {"basic", "desert"},
+	Callback = function(Value)
+	    getgenv().selectEgg = Value  
+	end    
+})
+ 
+-- Buttons
+ 
+TpTab:AddButton({
+	Name = "Tp",
+	Callback = function()
+	    if getgenv().tpPlace == "Desert" then
+      	Teleport(game:GetService("Workspace").Worlds.Desert.Teleport.CFrame)
+		elseif getgenv().tpPlace == "Winter" then
+         Teleport(game:GetService("Workspace").Worlds.Winter.Teleport.CFrame)
+        elseif getgenv().tpPlace == "Lava" then
+      	 Teleport(game:GetService("Workspace").Worlds.Lava.Teleport.CFrame)
+		elseif getgenv().tpPlace == "Toxic" then
+         Teleport(game:GetService("Workspace").Worlds.Toxic.Teleport.CFrame)
+	    end    
+    end
+}) 
+ 
+end
